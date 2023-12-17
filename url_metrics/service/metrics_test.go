@@ -68,7 +68,7 @@ func Test_GetTopDomains(t *testing.T) {
 				t.Errorf("GetTopDomains() error = %v, wantErr %v", gotErr, tt.wantErr)
 			}
 			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("domainMetricsService.GetTopDomains() = %v, want %v", got, tt.want)
+				t.Errorf("GetTopDomains() = %v, want %v", got, tt.want)
 			}
 		})
 	}

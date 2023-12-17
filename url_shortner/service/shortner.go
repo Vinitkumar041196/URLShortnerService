@@ -24,7 +24,7 @@ func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
 
 	//validate url format
 	u, err := url.ParseRequestURI(fullURL)
-	if err != nil {
+	if !(err == nil && u.Scheme != "" && u.Host != "") {
 		return "", fmt.Errorf("invalid url")
 	}
 
