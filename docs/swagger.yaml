@@ -1,0 +1,76 @@
+basePath: /v1
+definitions:
+  http.ErrorResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+    type: object
+  http.ShortenURLRequest:
+    properties:
+      url:
+        type: string
+    required:
+    - url
+    type: object
+  http.ShortenURLSuccessResponse:
+    properties:
+      message:
+        type: string
+      short_url:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: URL SHORTNER
+  version: "1.0"
+paths:
+  /{key}:
+    get:
+      description: Redirects the shortened URL to actual URL location
+      parameters:
+      - description: short url code
+        in: path
+        name: key
+        required: true
+        type: string
+      responses:
+        "301":
+          description: Moved Permanently
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Redirector API
+      tags:
+      - URLShortner
+  /url/shorten:
+    post:
+      description: Returns a shorten URL for input URL
+      parameters:
+      - description: json with actual url
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/http.ShortenURLRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/http.ShortenURLSuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Shorten URL API
+      tags:
+      - URLShortner
+swagger: "2.0"

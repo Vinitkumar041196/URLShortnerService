@@ -8,15 +8,25 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type HttpHandler struct {
+type URLShortnerHttpHandler struct {
 	service domain.URLShortnerService
 }
 
-func NewHttpHandler(srvc domain.URLShortnerService) *HttpHandler {
-	return &HttpHandler{service: srvc}
+func NewHttpHandler(srvc domain.URLShortnerService) *URLShortnerHttpHandler {
+	return &URLShortnerHttpHandler{service: srvc}
 }
 
-func (h *HttpHandler) ShortenURL(c *gin.Context) {
+//ShortenURL godoc
+// @Summary Shorten URL API
+// @Description Returns a shorten URL for input URL
+// @Tags URLShortner
+// @Produce json
+// @Param request body ShortenURLRequest true "json with actual url"
+// @Success 200 {object} ShortenURLSuccessResponse
+// @Failure 400 {object} ErrorResponse
+// @Failure 500 {object} ErrorResponse
+// @Router /url/shorten [post]
+func (h *URLShortnerHttpHandler) ShortenURL(c *gin.Context) {
 	req := ShortenURLRequest{}
 	err := c.BindJSON(&req)
 	if err != nil {
@@ -35,7 +45,15 @@ func (h *HttpHandler) ShortenURL(c *gin.Context) {
 	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: url})
 }
 
-func (h *HttpHandler) RedirectToFullURL(c *gin.Context) {
+//RedirectToFullURL godoc
+// @Summary Redirector API
+// @Description Redirects the shortened URL to actual URL location
+// @Tags URLShortner
+// @Param key path string true "short url code"
+// @Success 301 
+// @Failure 500 {object} ErrorResponse
+// @Router /{key} [get]
+func (h *URLShortnerHttpHandler) RedirectToFullURL(c *gin.Context) {
 	hash := c.Param("key")
 
 	fullURL, err := h.service.GetOriginalURL(hash)
