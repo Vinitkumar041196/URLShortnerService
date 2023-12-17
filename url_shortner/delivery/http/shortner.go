@@ -12,7 +12,8 @@ type URLShortnerHttpHandler struct {
 	service domain.URLShortnerService
 }
 
-func NewHttpHandler(srvc domain.URLShortnerService) *URLShortnerHttpHandler {
+//returns a new http handler for url shortner api
+func NewURLShortnerHttpHandler(srvc domain.URLShortnerService) *URLShortnerHttpHandler {
 	return &URLShortnerHttpHandler{service: srvc}
 }
 
@@ -23,20 +24,20 @@ func NewHttpHandler(srvc domain.URLShortnerService) *URLShortnerHttpHandler {
 // @Produce json
 // @Param request body ShortenURLRequest true "json with actual url"
 // @Success 200 {object} ShortenURLSuccessResponse
-// @Failure 400 {object} ErrorResponse
-// @Failure 500 {object} ErrorResponse
+// @Failure 400 {object} ShortenURLErrorResponse
+// @Failure 500 {object} ShortenURLErrorResponse
 // @Router /url/shorten [post]
 func (h *URLShortnerHttpHandler) ShortenURL(c *gin.Context) {
 	req := ShortenURLRequest{}
 	err := c.BindJSON(&req)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, ErrorResponse{Message: err.Error()})
+		c.JSON(http.StatusBadRequest, ShortenURLErrorResponse{Message: err.Error()})
 		return
 	}
 
 	shortURL, err := h.service.ShortenURL(req.URL)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error(), Message: "FAILED"})
+		c.JSON(http.StatusInternalServerError, ShortenURLErrorResponse{Error: err.Error(), Message: "FAILED"})
 		return
 	}
 
@@ -51,14 +52,14 @@ func (h *URLShortnerHttpHandler) ShortenURL(c *gin.Context) {
 // @Tags URLShortner
 // @Param key path string true "short url code"
 // @Success 301
-// @Failure 500 {object} ErrorResponse
+// @Failure 500 {object} ShortenURLErrorResponse
 // @Router /{key} [get]
 func (h *URLShortnerHttpHandler) RedirectToFullURL(c *gin.Context) {
 	hash := c.Param("key")
 
 	fullURL, err := h.service.GetOriginalURL(hash)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error(), Message: "FAILED"})
+		c.JSON(http.StatusInternalServerError, ShortenURLErrorResponse{Error: err.Error(), Message: "FAILED"})
 		return
 	}
 
