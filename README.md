@@ -1,6 +1,6 @@
 # URL Shortener
 
-- This service is a REST based API server that exposes APIs to shorten any URL with gaurantee that same url will always generate same shortened.
+- This service is a REST based API server that exposes APIs to shorten any URL with guarantee that same url will always generate same shortened URL.
 - It also redirects the shortened URL to orginal URL with its in memory URL store.
 - You can also get the top N shortened domains using its metrics API.
 
@@ -49,4 +49,4 @@ To build the docker image run the below command from root folder of the project
     ```
 
 An already built image of this project is available at:
-** **
+**https://hub.docker.com/repository/docker/vinitondocker/url_shortener/general**
