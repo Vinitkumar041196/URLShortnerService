@@ -2,10 +2,10 @@ package main
 
 import (
 	"log"
-	"url-shortner/server"
+	"url-shortener/server"
 )
 
-// @title URL SHORTNER
+// @title URL SHORTENER
 // @version 1.0
 // @BasePath /v1
 func main() {

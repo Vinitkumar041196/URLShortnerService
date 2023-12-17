@@ -5,16 +5,16 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"url-shortner/domain"
-	metricsRepo "url-shortner/url_metrics/repository"
-	metricsService "url-shortner/url_metrics/service"
-	urlRepo "url-shortner/url_shortner/repository"
-	urlShortnerService "url-shortner/url_shortner/service"
+	"url-shortener/domain"
+	metricsRepo "url-shortener/url_metrics/repository"
+	metricsService "url-shortener/url_metrics/service"
+	urlRepo "url-shortener/url_shortener/repository"
+	urlShortenerService "url-shortener/url_shortener/service"
 )
 
 type Server struct {
-	urlShortnerService domain.URLShortnerService
-	metricsService     domain.DomainMetricsService
+	urlShortenerService domain.URLShortenerService
+	metricsService      domain.DomainMetricsService
 }
 
 func NewServer() *Server {
@@ -23,17 +23,20 @@ func NewServer() *Server {
 	//setting up metrics service
 	metricsSrvc := metricsService.NewDomainMetricsService(metricsStore)
 
-	//setting up url shortner service
-	urlShortnerSrvc := urlShortnerService.NewURLShortnerService(urlRepo.NewInMemoryURLStore(), metricsStore)
+	//setting up url shortener service
+	urlShortenerSrvc := urlShortenerService.NewURLShortenerService(urlRepo.NewInMemoryURLStore(), metricsStore)
 
-	return &Server{urlShortnerService: urlShortnerSrvc, metricsService: metricsSrvc}
+	return &Server{urlShortenerService: urlShortenerSrvc, metricsService: metricsSrvc}
 }
 
 func (srv *Server) Start() {
 	router := NewRouter(srv)
-
+	serverAddr := os.Getenv("SERVER_ADDR")
+	if os.Getenv("SERVER_ADDR") == "" {
+		serverAddr = ":8080"
+	}
 	httpServer := &http.Server{
-		Addr:    os.Getenv("SERVER_ADDR"),
+		Addr:    serverAddr,
 		Handler: router,
 	}
 

@@ -3,31 +3,31 @@ package http
 import (
 	"fmt"
 	"net/http"
-	"url-shortner/domain"
+	"url-shortener/domain"
 
 	"github.com/gin-gonic/gin"
 )
 
-type URLShortnerHttpHandler struct {
-	service domain.URLShortnerService
+type URLShortenerHttpHandler struct {
+	service domain.URLShortenerService
 }
 
-//returns a new http handler for url shortner api
-func NewURLShortnerHttpHandler(srvc domain.URLShortnerService) *URLShortnerHttpHandler {
-	return &URLShortnerHttpHandler{service: srvc}
+// returns a new http handler for url shortener api
+func NewURLShortenerHttpHandler(srvc domain.URLShortenerService) *URLShortenerHttpHandler {
+	return &URLShortenerHttpHandler{service: srvc}
 }
 
 // ShortenURL godoc
 // @Summary Shorten URL API
 // @Description Returns a shorten URL for input URL
-// @Tags URLShortner
+// @Tags URLShortener
 // @Produce json
 // @Param request body ShortenURLRequest true "json with actual url"
 // @Success 200 {object} ShortenURLSuccessResponse
 // @Failure 400 {object} ShortenURLErrorResponse
 // @Failure 500 {object} ShortenURLErrorResponse
 // @Router /url/shorten [post]
-func (h *URLShortnerHttpHandler) ShortenURL(c *gin.Context) {
+func (h *URLShortenerHttpHandler) ShortenURL(c *gin.Context) {
 	req := ShortenURLRequest{}
 	err := c.BindJSON(&req)
 	if err != nil {
@@ -41,7 +41,11 @@ func (h *URLShortnerHttpHandler) ShortenURL(c *gin.Context) {
 		return
 	}
 
-	url := fmt.Sprintf(domain.ShortURLFormat, c.Request.Host, shortURL)
+	scheme := "http"
+	if c.Request.URL.Scheme != "" {
+		scheme = c.Request.URL.Scheme
+	}
+	url := fmt.Sprintf(domain.ShortURLFormat, scheme, c.Request.Host, shortURL)
 
 	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: url})
 }
@@ -49,12 +53,12 @@ func (h *URLShortnerHttpHandler) ShortenURL(c *gin.Context) {
 // RedirectToFullURL godoc
 // @Summary Redirector API
 // @Description Redirects the shortened URL to actual URL location
-// @Tags URLShortner
+// @Tags URLShortener
 // @Param key path string true "short url code"
 // @Success 301
 // @Failure 500 {object} ShortenURLErrorResponse
 // @Router /{key} [get]
-func (h *URLShortnerHttpHandler) RedirectToFullURL(c *gin.Context) {
+func (h *URLShortenerHttpHandler) RedirectToFullURL(c *gin.Context) {
 	hash := c.Param("key")
 
 	fullURL, err := h.service.GetOriginalURL(hash)

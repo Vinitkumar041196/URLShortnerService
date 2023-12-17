@@ -3,8 +3,8 @@ package service
 import (
 	"reflect"
 	"testing"
-	"url-shortner/domain"
-	"url-shortner/url_metrics/repository"
+	"url-shortener/domain"
+	"url-shortener/url_metrics/repository"
 )
 
 func Test_GetTopDomains(t *testing.T) {
@@ -26,28 +26,28 @@ func Test_GetTopDomains(t *testing.T) {
 	}{
 		{
 			name:    "Limit 1",
-			srvc:   metricSrvc,
+			srvc:    metricSrvc,
 			arg:     1,
 			want:    map[string]int{"google.com": 3},
 			wantErr: nil,
 		},
 		{
 			name:    "Limit less than data points",
-			srvc:   metricSrvc,
+			srvc:    metricSrvc,
 			arg:     2,
 			want:    map[string]int{"google.com": 3, "fb.com": 2},
 			wantErr: nil,
 		},
 		{
 			name:    "Test Default Limit",
-			srvc:   metricSrvc,
+			srvc:    metricSrvc,
 			arg:     0,
 			want:    map[string]int{"google.com": 3, "fb.com": 2, "bing.com": 1},
 			wantErr: nil,
 		},
 		{
 			name:    "Limit Greater than data points",
-			srvc:   metricSrvc,
+			srvc:    metricSrvc,
 			arg:     10,
 			want:    map[string]int{"google.com": 3, "fb.com": 2, "bing.com": 1},
 			wantErr: nil,

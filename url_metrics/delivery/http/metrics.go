@@ -3,7 +3,7 @@ package http
 import (
 	"net/http"
 	"strconv"
-	"url-shortner/domain"
+	"url-shortener/domain"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +12,7 @@ type DomainMetricsHttpHandler struct {
 	service domain.DomainMetricsService
 }
 
-//returns a new http handler for domain metrics api 
+// returns a new http handler for domain metrics api
 func NewDomainMetricsHttpHandler(srvc domain.DomainMetricsService) *DomainMetricsHttpHandler {
 	return &DomainMetricsHttpHandler{service: srvc}
 }
@@ -28,7 +28,7 @@ func NewDomainMetricsHttpHandler(srvc domain.DomainMetricsService) *DomainMetric
 // @Router /metrics/domains/top [get]
 func (h *DomainMetricsHttpHandler) GetTopDomains(c *gin.Context) {
 	limit := 3
-	//use limit from query param if exists 
+	//use limit from query param if exists
 	if limitStr := c.Query("limit"); limitStr != "" {
 		l, err := strconv.Atoi(limitStr)
 		if err == nil {

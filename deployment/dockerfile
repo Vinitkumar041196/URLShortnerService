@@ -4,7 +4,7 @@ FROM golang:alpine AS builder
 # Install git for fetching the dependencies.
 RUN apk update && apk add --no-cache git
 
-WORKDIR $GOPATH/src/url_shortner/app/
+WORKDIR $GOPATH/src/url_shortener/app/
 
 COPY . .
 
@@ -13,7 +13,7 @@ RUN go mod download
 RUN go mod verify
 
 # Build the binary.
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/url_shortner ./main.go
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/url_shortener ./main.go
 
 ########################################################
 # STEP 2 build image
@@ -21,9 +21,9 @@ RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/url_shortner ./
 FROM scratch
 
 # Copy our static executable.
-COPY --from=builder /go/bin/url_shortner /go/bin/url_shortner
+COPY --from=builder /go/bin/url_shortener /go/bin/url_shortener
 
 EXPOSE 8080/tcp
 
 # Run the binary.
-ENTRYPOINT ["/go/bin/url_shortner"]
+ENTRYPOINT ["/go/bin/url_shortener"]

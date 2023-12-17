@@ -1,6 +1,6 @@
 package service
 
-import "url-shortner/domain"
+import "url-shortener/domain"
 
 type domainMetricsService struct {
 	repo domain.DomainMetricsRepository

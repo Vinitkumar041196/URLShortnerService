@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "URL SHORTNER",
+        "title": "URL SHORTENER",
         "contact": {},
         "version": "1.0"
     },
@@ -48,7 +48,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "URLShortner"
+                    "URLShortener"
                 ],
                 "summary": "Shorten URL API",
                 "parameters": [
@@ -88,7 +88,7 @@
             "get": {
                 "description": "Redirects the shortened URL to actual URL location",
                 "tags": [
-                    "URLShortner"
+                    "URLShortener"
                 ],
                 "summary": "Redirector API",
                 "parameters": [

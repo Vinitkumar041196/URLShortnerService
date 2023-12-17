@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-	"url-shortner/domain"
+	"url-shortener/domain"
 )
 
 func Test_IncreementDomainCountMetric(t *testing.T) {

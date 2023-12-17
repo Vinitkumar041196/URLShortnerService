@@ -3,13 +3,13 @@ package service
 import (
 	"fmt"
 	"testing"
-	metricRepo "url-shortner/url_metrics/repository"
-	urlRepo "url-shortner/url_shortner/repository"
+	metricRepo "url-shortener/url_metrics/repository"
+	urlRepo "url-shortener/url_shortener/repository"
 )
 
 func Test_ShortenURL(t *testing.T) {
 
-	urlSrvc := NewURLShortnerService(urlRepo.NewInMemoryURLStore(), metricRepo.NewInMemoryMetricStore())
+	urlSrvc := NewURLShortenerService(urlRepo.NewInMemoryURLStore(), metricRepo.NewInMemoryMetricStore())
 
 	tests := []struct {
 		name    string
@@ -66,7 +66,7 @@ func Test_ShortenURL(t *testing.T) {
 
 func Test_GetOriginalURL(t *testing.T) {
 	urlRepo := urlRepo.NewInMemoryURLStore()
-	urlSrvc := NewURLShortnerService(urlRepo, metricRepo.NewInMemoryMetricStore())
+	urlSrvc := NewURLShortenerService(urlRepo, metricRepo.NewInMemoryMetricStore())
 	urlSrvc.ShortenURL("https://google.com")
 
 	tests := []struct {

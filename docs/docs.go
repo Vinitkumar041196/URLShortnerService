@@ -56,7 +56,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "URLShortner"
+                    "URLShortener"
                 ],
                 "summary": "Shorten URL API",
                 "parameters": [
@@ -96,7 +96,7 @@ const docTemplate = `{
             "get": {
                 "description": "Redirects the shortened URL to actual URL location",
                 "tags": [
-                    "URLShortner"
+                    "URLShortener"
                 ],
                 "summary": "Redirector API",
                 "parameters": [
@@ -190,7 +190,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "/v1",
 	Schemes:          []string{},
-	Title:            "URL SHORTNER",
+	Title:            "URL SHORTENER",
 	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

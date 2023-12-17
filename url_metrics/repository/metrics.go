@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"sync"
-	"url-shortner/domain"
+	"url-shortener/domain"
 )
 
 type Metric struct {

@@ -28,7 +28,7 @@ definitions:
       url:
         type: string
     required:
-    - url
+      - url
     type: object
   http.ShortenURLSuccessResponse:
     properties:
@@ -39,76 +39,76 @@ definitions:
     type: object
 info:
   contact: {}
-  title: URL SHORTNER
+  title: URL SHORTENER
   version: "1.0"
 paths:
   /{key}:
     get:
       description: Redirects the shortened URL to actual URL location
       parameters:
-      - description: short url code
-        in: path
-        name: key
-        required: true
-        type: string
+        - description: short url code
+          in: path
+          name: key
+          required: true
+          type: string
       responses:
         "301":
           description: Moved Permanently
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/http.ShortenURLErrorResponse'
+            $ref: "#/definitions/http.ShortenURLErrorResponse"
       summary: Redirector API
       tags:
-      - URLShortner
+        - URLShortener
   /metrics/domains/top:
     get:
       description: Returns a list of domains shortened maximum number of times
       parameters:
-      - description: optional query param to specify how many domains to get
-        in: query
-        name: limit
-        type: integer
+        - description: optional query param to specify how many domains to get
+          in: query
+          name: limit
+          type: integer
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/http.GetTopDomainsSuccessResponse'
+            $ref: "#/definitions/http.GetTopDomainsSuccessResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/http.GetTopDomainsErrorResponse'
+            $ref: "#/definitions/http.GetTopDomainsErrorResponse"
       summary: List Top Shortened Domains
       tags:
-      - Metrics
+        - Metrics
   /url/shorten:
     post:
       description: Returns a shorten URL for input URL
       parameters:
-      - description: json with actual url
-        in: body
-        name: request
-        required: true
-        schema:
-          $ref: '#/definitions/http.ShortenURLRequest'
+        - description: json with actual url
+          in: body
+          name: request
+          required: true
+          schema:
+            $ref: "#/definitions/http.ShortenURLRequest"
       produces:
-      - application/json
+        - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/http.ShortenURLSuccessResponse'
+            $ref: "#/definitions/http.ShortenURLSuccessResponse"
         "400":
           description: Bad Request
           schema:
-            $ref: '#/definitions/http.ShortenURLErrorResponse'
+            $ref: "#/definitions/http.ShortenURLErrorResponse"
         "500":
           description: Internal Server Error
           schema:
-            $ref: '#/definitions/http.ShortenURLErrorResponse'
+            $ref: "#/definitions/http.ShortenURLErrorResponse"
       summary: Shorten URL API
       tags:
-      - URLShortner
+        - URLShortener
 swagger: "2.0"

@@ -1,13 +1,13 @@
 package domain
 
-type URLShortnerService interface {
+type URLShortenerService interface {
 	ShortenURL(url string) (string, error)
 	GetOriginalURL(shortUrl string) (string, error)
 }
 
-type URLShortnerRepository interface {
+type URLShortenerRepository interface {
 	StoreShortURL(fullURL, shortURL string) error
 	GetFullURL(shortURL string) (string, error)
 }
 
-const ShortURLFormat = "%s/v1/%s"
+const ShortURLFormat = "%s://%s/v1/%s"

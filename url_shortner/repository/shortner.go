@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 	"sync"
-	"url-shortner/domain"
+	"url-shortener/domain"
 )
 
 type inMemoryURLStore struct {
@@ -11,8 +11,8 @@ type inMemoryURLStore struct {
 	lock  sync.Mutex
 }
 
-//return new in memory store to use as url repository
-func NewInMemoryURLStore() domain.URLShortnerRepository {
+// return new in memory store to use as url repository
+func NewInMemoryURLStore() domain.URLShortenerRepository {
 	return &inMemoryURLStore{
 		store: make(map[string]string),
 	}

@@ -3,20 +3,20 @@ package service
 import (
 	"fmt"
 	"net/url"
-	"url-shortner/domain"
+	"url-shortener/domain"
 )
 
-type urlShortnerService struct {
-	urlRepo     domain.URLShortnerRepository
+type urlShortenerService struct {
+	urlRepo     domain.URLShortenerRepository
 	metricsRepo domain.DomainMetricsRepository
 }
 
-// returns new url shortner service
-func NewURLShortnerService(urlRepo domain.URLShortnerRepository, metricsRepo domain.DomainMetricsRepository) domain.URLShortnerService {
-	return &urlShortnerService{urlRepo: urlRepo, metricsRepo: metricsRepo}
+// returns new url shortener service
+func NewURLShortenerService(urlRepo domain.URLShortenerRepository, metricsRepo domain.DomainMetricsRepository) domain.URLShortenerService {
+	return &urlShortenerService{urlRepo: urlRepo, metricsRepo: metricsRepo}
 }
 
-func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
+func (s *urlShortenerService) ShortenURL(fullURL string) (string, error) {
 	//validate input url
 	if fullURL == "" {
 		return "", fmt.Errorf("empty url")
@@ -48,7 +48,7 @@ func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
 	return shortURL, nil
 }
 
-func (s *urlShortnerService) GetOriginalURL(shortURL string) (string, error) {
+func (s *urlShortenerService) GetOriginalURL(shortURL string) (string, error) {
 	if shortURL == "" {
 		return "", fmt.Errorf("empty url")
 	}

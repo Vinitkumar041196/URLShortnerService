@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 	"testing"
-	"url-shortner/domain"
+	"url-shortener/domain"
 )
 
 func Test_StoreShortURL(t *testing.T) {
@@ -16,7 +16,7 @@ func Test_StoreShortURL(t *testing.T) {
 	}
 	tests := []struct {
 		name    string
-		repo    domain.URLShortnerRepository
+		repo    domain.URLShortenerRepository
 		args    args
 		wantErr error
 	}{
@@ -57,7 +57,7 @@ func Test_GetFullURL(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		repo    domain.URLShortnerRepository
+		repo    domain.URLShortenerRepository
 		arg     string
 		want    string
 		wantErr error
