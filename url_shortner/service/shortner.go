@@ -10,6 +10,7 @@ type urlShortnerService struct {
 	repo domain.URLShortnerRepository
 }
 
+//returns new url shortner service
 func NewURLShortnerService(r domain.URLShortnerRepository) domain.URLShortnerService {
 	return &urlShortnerService{repo: r}
 }

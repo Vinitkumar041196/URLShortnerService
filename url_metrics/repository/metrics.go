@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 	"sync"
+	"url-shortner/domain"
 )
 
 type Metric struct {
@@ -16,13 +17,15 @@ type inMemoryMetricStore struct {
 	lock             sync.Mutex
 }
 
-func NewInMemoryURLStore() *inMemoryMetricStore {
+//return new in memory store for metrics
+func NewInMemoryMetricStore() domain.DomainMetricsRepository {
 	return &inMemoryMetricStore{
 		countMetricStore: make(map[string]Metric),
 	}
 }
 
-func (store *inMemoryMetricStore) IncreementDomainShortenCount(domain string) error {
+//increements domain shorten count in store
+func (store *inMemoryMetricStore) IncreementDomainCountMetric(domain string) error {
 	//check if store exists
 	if store.countMetricStore == nil {
 		return fmt.Errorf("store not initialized")
@@ -44,6 +47,7 @@ func (store *inMemoryMetricStore) IncreementDomainShortenCount(domain string) er
 	return nil
 }
 
+//return top shortened domain list from store
 func (store *inMemoryMetricStore) GetTopDomains(limit int) (map[string]int, error) {
 	//check if store exists
 	if store.countMetricStore == nil {

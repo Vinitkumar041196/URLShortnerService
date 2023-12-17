@@ -11,6 +11,7 @@ type inMemoryURLStore struct {
 	lock  sync.Mutex
 }
 
+//return new in memory store to use as url repository
 func NewInMemoryURLStore() domain.URLShortnerRepository {
 	return &inMemoryURLStore{
 		store: make(map[string]string),
