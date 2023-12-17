@@ -9,3 +9,5 @@ type URLShortnerRepository interface {
 	StoreShortURL(fullURL, shortURL string) error
 	GetFullURL(shortURL string) (string, error)
 }
+
+const ShortURLFormat = "%s/v1/%s"
