@@ -11,12 +11,7 @@ func NewDomainMetricsService(r domain.DomainMetricsRepository) domain.DomainMetr
 	return &domainMetricsService{repo: r}
 }
 
-//increements domain shorten count
-func (s *domainMetricsService) IncreementDomainCountMetric(domain string) error {
-	return s.repo.IncreementDomainCountMetric(domain)
-}
-
-//return top shortened domain list 
+//return top shortened domain list
 func (s *domainMetricsService) GetTopDomains(limit int) (map[string]int, error) {
 	return s.repo.GetTopDomains(limit)
 }
