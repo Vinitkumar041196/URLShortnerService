@@ -10,8 +10,6 @@ type inMemoryURLStore struct {
 	lock  sync.Mutex
 }
 
-var Store *inMemoryURLStore
-
 func NewInMemoryURLStore() *inMemoryURLStore {
 	return &inMemoryURLStore{
 		store: make(map[string]string),

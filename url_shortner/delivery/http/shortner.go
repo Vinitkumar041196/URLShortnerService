@@ -16,7 +16,7 @@ func NewHttpHandler(srvc domain.URLShortnerService) *URLShortnerHttpHandler {
 	return &URLShortnerHttpHandler{service: srvc}
 }
 
-//ShortenURL godoc
+// ShortenURL godoc
 // @Summary Shorten URL API
 // @Description Returns a shorten URL for input URL
 // @Tags URLShortner
@@ -40,17 +40,17 @@ func (h *URLShortnerHttpHandler) ShortenURL(c *gin.Context) {
 		return
 	}
 
-	url := fmt.Sprintf("%s/v1/%s", c.Request.Host, shortURL)
+	url := fmt.Sprintf(domain.ShortURLFormat, c.Request.Host, shortURL)
 
 	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: url})
 }
 
-//RedirectToFullURL godoc
+// RedirectToFullURL godoc
 // @Summary Redirector API
 // @Description Redirects the shortened URL to actual URL location
 // @Tags URLShortner
 // @Param key path string true "short url code"
-// @Success 301 
+// @Success 301
 // @Failure 500 {object} ErrorResponse
 // @Router /{key} [get]
 func (h *URLShortnerHttpHandler) RedirectToFullURL(c *gin.Context) {
