@@ -15,6 +15,40 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/metrics/domains/top": {
+            "get": {
+                "description": "Returns a list of domains shortened maximum number of times",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Metrics"
+                ],
+                "summary": "List Top Shortened Domains",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "optional query param to specify how many domains to get",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/http.GetTopDomainsSuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/http.GetTopDomainsErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/url/shorten": {
             "post": {
                 "description": "Returns a shorten URL for input URL",
@@ -46,13 +80,13 @@ const docTemplate = `{
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/http.ErrorResponse"
+                            "$ref": "#/definitions/http.ShortenURLErrorResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/http.ErrorResponse"
+                            "$ref": "#/definitions/http.ShortenURLErrorResponse"
                         }
                     }
                 }
@@ -81,7 +115,7 @@ const docTemplate = `{
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/http.ErrorResponse"
+                            "$ref": "#/definitions/http.ShortenURLErrorResponse"
                         }
                     }
                 }
@@ -89,7 +123,32 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "http.ErrorResponse": {
+        "http.GetTopDomainsErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "http.GetTopDomainsSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "integer"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "http.ShortenURLErrorResponse": {
             "type": "object",
             "properties": {
                 "error": {
