@@ -18,11 +18,13 @@ type Server struct {
 }
 
 func NewServer() *Server {
-	//setting up url shortner service
-	urlShortnerSrvc := urlShortnerService.NewURLShortnerService(urlRepo.NewInMemoryURLStore())
+	//initialize metrics store
+	metricsStore := metricsRepo.NewInMemoryMetricStore()
+	//setting up metrics service
+	metricsSrvc := metricsService.NewDomainMetricsService(metricsStore)
 
 	//setting up url shortner service
-	metricsSrvc := metricsService.NewDomainMetricsService(metricsRepo.NewInMemoryMetricStore())
+	urlShortnerSrvc := urlShortnerService.NewURLShortnerService(urlRepo.NewInMemoryURLStore(), metricsStore)
 
 	return &Server{urlShortnerService: urlShortnerSrvc, metricsService: metricsSrvc}
 }

@@ -7,12 +7,13 @@ import (
 )
 
 type urlShortnerService struct {
-	repo domain.URLShortnerRepository
+	urlRepo     domain.URLShortnerRepository
+	metricsRepo domain.DomainMetricsRepository
 }
 
-//returns new url shortner service
-func NewURLShortnerService(r domain.URLShortnerRepository) domain.URLShortnerService {
-	return &urlShortnerService{repo: r}
+// returns new url shortner service
+func NewURLShortnerService(urlRepo domain.URLShortnerRepository, metricsRepo domain.DomainMetricsRepository) domain.URLShortnerService {
+	return &urlShortnerService{urlRepo: urlRepo, metricsRepo: metricsRepo}
 }
 
 func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
@@ -22,8 +23,13 @@ func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
 	}
 
 	//validate url format
-	_, err := url.ParseRequestURI(fullURL)
+	u, err := url.ParseRequestURI(fullURL)
 	if err != nil {
+		return "", fmt.Errorf("invalid url")
+	}
+
+	domain := GetDomainFromURL(u)
+	if domain == "" {
 		return "", fmt.Errorf("invalid url")
 	}
 
@@ -31,10 +37,13 @@ func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
 	shortURL := hashURL(fullURL)
 
 	//store the mapping
-	err = s.repo.StoreShortURL(fullURL, shortURL)
+	err = s.urlRepo.StoreShortURL(fullURL, shortURL)
 	if err != nil {
 		return "", err
 	}
+
+	//update metrics
+	s.metricsRepo.IncreementDomainCountMetric(domain)
 
 	return shortURL, nil
 }
@@ -44,7 +53,7 @@ func (s *urlShortnerService) GetOriginalURL(shortURL string) (string, error) {
 		return "", fmt.Errorf("empty url")
 	}
 
-	fullURL, err := s.repo.GetFullURL(shortURL)
+	fullURL, err := s.urlRepo.GetFullURL(shortURL)
 	if err != nil {
 		return "", err
 	}
