@@ -17,14 +17,14 @@ type inMemoryMetricStore struct {
 	lock             sync.Mutex
 }
 
-//return new in memory store for metrics
+// return new in memory store for metrics
 func NewInMemoryMetricStore() domain.DomainMetricsRepository {
 	return &inMemoryMetricStore{
 		countMetricStore: make(map[string]Metric),
 	}
 }
 
-//increements domain shorten count in store
+// increements domain shorten count in store
 func (store *inMemoryMetricStore) IncreementDomainCountMetric(domain string) error {
 	//check if store exists
 	if store.countMetricStore == nil {
@@ -47,7 +47,7 @@ func (store *inMemoryMetricStore) IncreementDomainCountMetric(domain string) err
 	return nil
 }
 
-//return top shortened domain list from store
+// return top shortened domain list from store
 func (store *inMemoryMetricStore) GetTopDomains(limit int) (map[string]int, error) {
 	//check if store exists
 	if store.countMetricStore == nil {
@@ -72,6 +72,10 @@ func (store *inMemoryMetricStore) GetTopDomains(limit int) (map[string]int, erro
 	})
 
 	topNDomainMap := make(map[string]int)
+
+	if limit == 0 {
+		limit = 3
+	}
 
 	if limit > len(metricArray) {
 		limit = len(metricArray)
