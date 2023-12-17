@@ -15,7 +15,7 @@ func NewRouter(srv *Server) *gin.Engine {
 	v1 := router.Group("/v1")
 
 	handler := shortnerHTTPDelivery.NewHttpHandler(srv.urlShortnerService)
+	v1.GET("/:key", handler.RedirectToFullURL)
 	v1.POST("/url/shorten", handler.ShortenURL)
-	v1.GET("/url/:key", handler.RedirectToFullURL)
 	return router
 }

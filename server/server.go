@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 	"url-shortner/domain"
+	urlRepo "url-shortner/url_shortner/repository"
+	urlShortnerService "url-shortner/url_shortner/service"
 )
 
 type Server struct {
@@ -13,7 +15,9 @@ type Server struct {
 }
 
 func NewServer() *Server {
-	return &Server{}
+	repo := urlRepo.NewInMemoryURLStore()
+	srvc := urlShortnerService.NewURLShortnerService(repo)
+	return &Server{urlShortnerService: srvc}
 }
 
 func (srv *Server) Start() {

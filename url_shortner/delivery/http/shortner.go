@@ -30,7 +30,7 @@ func (h *HttpHandler) ShortenURL(c *gin.Context) {
 		return
 	}
 
-	url := fmt.Sprintf("%s/url/%s", c.Request.Host, shortURL)
+	url := fmt.Sprintf("%s/v1/%s", c.Request.Host, shortURL)
 
 	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: url})
 }
