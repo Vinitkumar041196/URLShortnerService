@@ -6,18 +6,25 @@ import (
 	"net/http"
 	"os"
 	"url-shortner/domain"
+	metricsRepo "url-shortner/url_metrics/repository"
+	metricsService "url-shortner/url_metrics/service"
 	urlRepo "url-shortner/url_shortner/repository"
 	urlShortnerService "url-shortner/url_shortner/service"
 )
 
 type Server struct {
 	urlShortnerService domain.URLShortnerService
+	metricsService     domain.DomainMetricsService
 }
 
 func NewServer() *Server {
-	repo := urlRepo.NewInMemoryURLStore()
-	srvc := urlShortnerService.NewURLShortnerService(repo)
-	return &Server{urlShortnerService: srvc}
+	//setting up url shortner service
+	urlShortnerSrvc := urlShortnerService.NewURLShortnerService(urlRepo.NewInMemoryURLStore())
+
+	//setting up url shortner service
+	metricsSrvc := metricsService.NewDomainMetricsService(metricsRepo.NewInMemoryMetricStore())
+
+	return &Server{urlShortnerService: urlShortnerSrvc, metricsService: metricsSrvc}
 }
 
 func (srv *Server) Start() {
