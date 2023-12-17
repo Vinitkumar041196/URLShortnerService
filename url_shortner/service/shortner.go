@@ -1,0 +1,41 @@
+package service
+
+import (
+	"fmt"
+	"net/url"
+	"url-shortner/domain"
+)
+
+type urlShortnerService struct {
+	repo domain.URLShortnerRepository
+}
+
+func NewURLShortnerService(r domain.URLShortnerRepository) *urlShortnerService {
+	return &urlShortnerService{repo: r}
+}
+
+func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
+	//validate input url
+	if fullURL == "" {
+		return "", fmt.Errorf("invalid url")
+	}
+	_, err := url.ParseRequestURI(fullURL)
+	if err != nil {
+		return "", fmt.Errorf("invalid url")
+	}
+
+	//shorten using hash
+	shortURL := hashURL(fullURL)
+
+	//store the mapping
+	err = s.repo.StoreShortURL(fullURL, shortURL)
+	if err != nil {
+		return "", err
+	}
+
+	return shortURL, nil
+}
+
+func (s *urlShortnerService) GetOriginalURL(shortUrl string) (string, error) {
+	return "", nil
+}

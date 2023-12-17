@@ -6,6 +6,8 @@ type URLShortnerService interface {
 }
 
 type URLShortnerRepository interface {
-	StoreShortURL(url, shortURL string) error
+	StoreShortURL(fullURL, shortURL string) error
 	GetFullURL(shortURL string) (string, error)
 }
+
+const ShortURLPrefix = "/url"

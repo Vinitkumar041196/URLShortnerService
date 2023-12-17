@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"net/http"
 	"url-shortner/domain"
 
@@ -28,6 +29,7 @@ func (h *HttpHandler) ShortenURL(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error(), Message: "FAILED"})
 		return
 	}
+	url := fmt.Sprintf("%s/%s", c.Request.Host, shortURL)
 
-	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: shortURL})
+	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: url})
 }
