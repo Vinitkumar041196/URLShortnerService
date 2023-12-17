@@ -26,10 +26,22 @@ func (h *HttpHandler) ShortenURL(c *gin.Context) {
 
 	shortURL, err := h.service.ShortenURL(req.URL)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, ErrorResponse{Error: err.Error(), Message: "FAILED"})
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error(), Message: "FAILED"})
 		return
 	}
 	url := fmt.Sprintf("%s/%s", c.Request.Host, shortURL)
 
 	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: url})
+}
+
+func (h *HttpHandler) RedirectToFullURL(c *gin.Context) {
+	hash := c.Param("key")
+
+	fullURL, err := h.service.GetOriginalURL(hash)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error(), Message: "FAILED"})
+		return
+	}
+
+	c.Redirect(http.StatusMovedPermanently, fullURL)
 }

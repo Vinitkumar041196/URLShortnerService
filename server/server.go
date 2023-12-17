@@ -9,7 +9,7 @@ import (
 )
 
 type Server struct {
-	urlShortnerService *domain.URLShortnerService
+	urlShortnerService domain.URLShortnerService
 }
 
 func NewServer() *Server {

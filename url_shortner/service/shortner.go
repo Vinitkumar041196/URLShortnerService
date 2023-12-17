@@ -17,8 +17,10 @@ func NewURLShortnerService(r domain.URLShortnerRepository) *urlShortnerService {
 func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
 	//validate input url
 	if fullURL == "" {
-		return "", fmt.Errorf("invalid url")
+		return "", fmt.Errorf("empty url")
 	}
+
+	//validate url format
 	_, err := url.ParseRequestURI(fullURL)
 	if err != nil {
 		return "", fmt.Errorf("invalid url")
@@ -36,6 +38,15 @@ func (s *urlShortnerService) ShortenURL(fullURL string) (string, error) {
 	return shortURL, nil
 }
 
-func (s *urlShortnerService) GetOriginalURL(shortUrl string) (string, error) {
-	return "", nil
+func (s *urlShortnerService) GetOriginalURL(shortURL string) (string, error) {
+	if shortURL == "" {
+		return "", fmt.Errorf("empty url")
+	}
+
+	fullURL, err := s.repo.GetFullURL(shortURL)
+	if err != nil {
+		return "", err
+	}
+
+	return fullURL, nil
 }

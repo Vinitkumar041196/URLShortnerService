@@ -1,7 +1,7 @@
 package server
 
 import (
-	shortnerHTTPDelivery "url_shortner/url_shortner/delivery/http"
+	shortnerHTTPDelivery "url-shortner/url_shortner/delivery/http"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
