@@ -9,5 +9,3 @@ type URLShortnerRepository interface {
 	StoreShortURL(fullURL, shortURL string) error
 	GetFullURL(shortURL string) (string, error)
 }
-
-const ShortURLPrefix = "/url"

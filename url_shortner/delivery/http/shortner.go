@@ -29,7 +29,8 @@ func (h *HttpHandler) ShortenURL(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, ErrorResponse{Error: err.Error(), Message: "FAILED"})
 		return
 	}
-	url := fmt.Sprintf("%s/%s", c.Request.Host, shortURL)
+
+	url := fmt.Sprintf("%s/url/%s", c.Request.Host, shortURL)
 
 	c.JSON(http.StatusOK, ShortenURLSuccessResponse{Message: "SUCCESS", ShortURL: url})
 }

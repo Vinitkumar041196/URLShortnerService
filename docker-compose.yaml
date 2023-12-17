@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+
+url_shortner:
+    container_name: url_shortner
+    image: golang:alpine3.16
+    command: /bin/sh ./deployment/dev.sh
+    working_dir: /go/src/url_shortner
+    volumes:
+      - ./:/go/src/url_shortner/
+    ports:
+      - "0.0.0.0:8080:8080"
+    dns:
+      - 8.8.8.8
+    environment:
+      - SERVER_ADDR=:8080
